@@ -5,19 +5,14 @@
 cd <project directory>
 npm install
 npm run build
+# this script assumes that your global node bin dir is on your PATH
+npm run set-path
 npm run test
 ```
 
 ## To run a sample project
 
-```
-npm run build
-cd example-project
-node ../lib/local-transform-shim.js
-```
-
-The Amplify transformer will read in the manifest file from the example directory and create CDK CloudAssembly in cdk.out
-To deploy, run `npx cdk deploy --app cdk.out --all --require-approval never` (you will also need to specify an AWS profile)
+See the readme in the `example-project` directory
 
 ## AmplifyServiceProvider contract
 
