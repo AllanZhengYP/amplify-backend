@@ -9,7 +9,7 @@ node_modules
 .cdk.staging
 cdk.out
 
-lib
+bin
 tsconfig.tsbuildinfo
 
 # example lambda

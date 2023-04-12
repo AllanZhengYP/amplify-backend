@@ -5,7 +5,7 @@
     "lib": ["es2019"],
     "composite": true,
     "rootDir": "./src",
-    "outDir": "./lib",
+    "outDir": "./bin",
     "declaration": true,
     "strict": true,
     "noImplicitAny": true,
@@ -26,5 +26,5 @@
     "esModuleInterop": true
   },
   "include": ["./src/**/*"],
-  "exclude": ["node_modules", "cdk.out", "./lib/**/*"]
+  "exclude": ["node_modules", "cdk.out"]
 }

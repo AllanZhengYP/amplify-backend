@@ -5,13 +5,14 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint",
-    "clean": "rm -rf node_modules lib tsconfig.tsbuildinfo",
+    "install:local": "npm run build && npm link",
+    "clean": "rm -rf node_modules bin tsconfig.tsbuildinfo",
     "test": "jest",
     "watch": "tsc -w"
   },
   "bin": {
-    "amplify-next": "./bin/index.js",
-    "vnext": "./bin/index.js"
+    "amplify-next": "./bin/amplify-toolbox.js",
+    "vnext": "./bin/amplify-toolbox.js"
   },
   "devDependencies": {
     "@jest/globals": "^29.5.0",
