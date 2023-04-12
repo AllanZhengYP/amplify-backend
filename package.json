@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint",
+    "lint": "eslint src/**",
     "install:local": "npm run build && npm link",
     "clean": "rm -rf node_modules bin tsconfig.tsbuildinfo",
     "test": "jest",
