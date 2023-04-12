@@ -4,24 +4,34 @@
   "version": "0.1.0",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint",
     "clean": "rm -rf node_modules lib tsconfig.tsbuildinfo",
-    "set-path": "ln -s \"$(pwd)/bin/vnext\" \"$(npm get prefix)/bin/vnext\"",
     "test": "jest",
     "watch": "tsc -w"
   },
-  "main": "./lib/index.js",
+  "bin": {
+    "amplify-next": "./bin/index.js",
+    "vnext": "./bin/index.js"
+  },
   "devDependencies": {
+    "@jest/globals": "^29.5.0",
     "@types/aws-lambda": "~8.10.109",
     "@types/fs-extra": "~9.0.13",
     "@types/jest": "~27.5.2",
     "@types/node": "~16.0.0",
     "@types/prettier": "~2.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "@typescript-eslint/parser": "^5.58.0",
+    "eslint": "^8.38.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-xo": "^0.43.1",
+    "eslint-config-xo-typescript": "^0.57.0",
     "jest": "^27.5.1",
     "prettier": "~2.8.1",
     "ts-jest": "~27.1.4",
     "ts-json-schema-generator": "^1.2.0",
     "ts-node": "~10.9.1",
-    "typescript": "~4.9.4"
+    "typescript": "^4.9.5"
   },
   "dependencies": {
     "@commander-js/extra-typings": "^10.0.2",
@@ -29,7 +39,7 @@
     "aws-cdk": "^2.38.0",
     "aws-cdk-lib": "^2.38.0",
     "aws-lambda": "^1.0.7",
-    "aws-sdk": "^2.1272.0",
+    "aws-sdk": "^2.1356.0",
     "commander": "^10.0.0",
     "constructs": "^10.0.0",
     "esbuild": "^0.17.12",
