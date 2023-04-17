@@ -7,6 +7,9 @@ test('The program properly greets the world', () => {
   const greeter = () => null;
   const greeterTracker = tracker.calls(greeter, 1);
   helloWorld(greeterTracker);
+  assert.deepStrictEqual(tracker.getCalls(greeterTracker), [
+    { thisArg: undefined, arguments: ['Hello, world.'] },
+  ]);
 
   tracker.verify();
 });
