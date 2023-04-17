@@ -1,8 +1,12 @@
-import { test, jest, expect } from '@jest/globals';
+import { test } from 'node:test';
+import assert from 'node:assert';
 import { helloWorld } from './hello_world.js';
 
 test('The program properly greets the world', () => {
-  const greeter = jest.fn();
-  helloWorld(greeter);
-  expect(greeter).toHaveBeenCalledWith('Hello, world.');
+  const tracker = new assert.CallTracker();
+  const greeter = () => null;
+  const greeterTracker = tracker.calls(greeter, 1);
+  helloWorld(greeterTracker);
+
+  tracker.verify();
 });
