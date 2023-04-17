@@ -46,9 +46,9 @@ describe('Mocking functions', () => {
     const cases: TestCase[] = [{ message: 'Hello, world.' }];
     for (const testCase of cases) {
       test(`The message "${testCase.message}" is shown`, () => {
-        const spy = mock.fn();
-        helloWorld(spy);
-        assert.equal(spy.mock.calls[0].arguments[0], testCase.message);
+        const mockFn = mock.fn();
+        helloWorld(mockFn);
+        assert.equal(mockFn.mock.calls[0].arguments[0], testCase.message);
       });
     }
   });
