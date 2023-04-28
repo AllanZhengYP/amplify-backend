@@ -1,10 +1,12 @@
 import { Auth } from '@aws-amplify/construct-auth';
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { Construct } from 'constructs';
+import type { Construct } from 'constructs';
 
 /**
- * Build builds
+ * Build is an exported method that will be invoked by the samsara system to orchestrate an Amplify app.
+ * Build receives a construct that can be passed to Amplify's L3 constructs.
+ * @param ctx A context that can be passed to Amplify constructs.
  */
 export const build = (ctx: Construct) => {
   new Auth(ctx as any, 'myAuthId', {
