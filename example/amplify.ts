@@ -1,4 +1,4 @@
-import { Auth } from '@aws-amplify/construct-auth';
+import * as Auth from '@aws-amplify/construct-auth';
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { Construct } from 'constructs';
@@ -7,7 +7,7 @@ import { Construct } from 'constructs';
  * Build builds
  */
 export const build = (ctx: Construct) => {
-  new Auth(ctx as any, 'myAuthId', {
+  new Auth.Auth(ctx as any, 'myAuthId', {
     loginMechanisms: ['email'],
   });
 };

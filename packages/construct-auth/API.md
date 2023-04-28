@@ -11,7 +11,7 @@ export class Auth extends Construct {
     constructor(scope: Construct, id: string, props: AuthProps);
 }
 
-// @public (undocumented)
+// @public
 export type AuthProps = {
     loginMechanisms: LoginMechanism[];
 };
