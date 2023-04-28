@@ -18,6 +18,7 @@ function main() {
 
   build(stack);
   const template = Template.fromStack(stack);
-  console.log(JSON.stringify(template.toJSON(), null, 2));
+  // console.log(JSON.stringify(template.toJSON(), null, 2));
+  console.log(template.toJSON());
 }
 main();
