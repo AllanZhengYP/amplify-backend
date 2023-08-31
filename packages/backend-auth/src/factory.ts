@@ -7,7 +7,7 @@ import {
   AuthResources,
   BackendOutputEntry,
   BackendOutputStorageStrategy,
-  BackendParameter,
+  BackendSecret,
   ConstructContainerEntryGenerator,
   ConstructFactory,
   ConstructFactoryGetInstanceProps,
@@ -18,7 +18,7 @@ import { SecretValue } from 'aws-cdk-lib';
 export type AmplifyAuthFactoryProps = Replace<
   AmplifyAuthProps,
   SecretValue,
-  BackendParameter
+  BackendSecret
 >;
 
 /**
@@ -46,7 +46,7 @@ export class AmplifyAuthFactory
     constructContainer,
     outputStorageStrategy,
     importPathVerifier,
-    backendParameterResolver,
+    backendSecretResolver,
   }: ConstructFactoryGetInstanceProps): AmplifyAuth => {
     importPathVerifier?.verify(
       this.importStack,
@@ -55,7 +55,7 @@ export class AmplifyAuthFactory
     );
     if (!this.generator) {
       this.generator = new AmplifyAuthGenerator(
-        backendParameterResolver.resolveParameters(this.props),
+        backendSecretResolver.resolveSecrets(this.props),
         outputStorageStrategy
       );
     }

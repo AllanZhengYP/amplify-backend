@@ -3,7 +3,7 @@ import { Func } from './factory.js';
 import { App, Stack } from 'aws-cdk-lib';
 import {
   NestedStackResolver,
-  OptionalPassThroughBackendParameterResolver,
+  DeepBackendSecretResolver,
   SingletonConstructContainer,
   StackMetadataBackendOutputStorageStrategy,
 } from '@aws-amplify/backend/test-utils';
@@ -26,17 +26,16 @@ describe('AmplifyFunctionFactory', () => {
       stack
     );
 
-    const backendParameterResolver =
-      new OptionalPassThroughBackendParameterResolver(
-        stack,
-        'backendId',
-        'testBranch'
-      );
+    const backendSecretResolver = new DeepBackendSecretResolver(
+      stack,
+      'backendId',
+      'testBranch'
+    );
 
     getInstanceProps = {
       constructContainer,
       outputStorageStrategy,
-      backendParameterResolver,
+      backendSecretResolver,
     };
   });
 

@@ -7,7 +7,7 @@
 import { AmplifyAuth } from '@aws-amplify/auth-construct-alpha';
 import { AmplifyAuthProps } from '@aws-amplify/auth-construct-alpha';
 import { AuthResources } from '@aws-amplify/plugin-types';
-import { BackendParameter } from '@aws-amplify/plugin-types';
+import { BackendSecret } from '@aws-amplify/plugin-types';
 import { ConstructFactory } from '@aws-amplify/plugin-types';
 import { ConstructFactoryGetInstanceProps } from '@aws-amplify/plugin-types';
 import { Replace } from '@aws-amplify/plugin-types';
@@ -16,13 +16,13 @@ import { SecretValue } from 'aws-cdk-lib';
 // @public
 export class AmplifyAuthFactory implements ConstructFactory<AmplifyAuth & AuthResources> {
     constructor(props: AmplifyAuthFactoryProps);
-    getInstance({ constructContainer, outputStorageStrategy, importPathVerifier, backendParameterResolver, }: ConstructFactoryGetInstanceProps): AmplifyAuth;
+    getInstance: ({ constructContainer, outputStorageStrategy, importPathVerifier, backendSecretResolver, }: ConstructFactoryGetInstanceProps) => AmplifyAuth;
     // (undocumented)
     readonly provides = "AuthResources";
 }
 
 // @public (undocumented)
-export type AmplifyAuthFactoryProps = Replace<AmplifyAuthProps, SecretValue, BackendParameter>;
+export type AmplifyAuthFactoryProps = Replace<AmplifyAuthProps, SecretValue, BackendSecret>;
 
 // @public
 export const Auth: typeof AmplifyAuthFactory;

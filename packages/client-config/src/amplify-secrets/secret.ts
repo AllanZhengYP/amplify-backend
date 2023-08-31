@@ -9,11 +9,11 @@ export interface Secret {
    * @param branchName - (optional) The branch name. Use 'sandbox' for sandbox environment. If absent, the function
    * will retrieve an app-level secret.
    */
-  getSecret(
+  getSecret: (
     backendId: string,
     secretName: string,
     branchName?: string
-  ): Promise<string | undefined>;
+  ) => Promise<string | undefined>;
 }
 
 /**
