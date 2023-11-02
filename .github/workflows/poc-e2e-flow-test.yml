@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
+      - name: Local Publish create-amplify
+        shell: bash
+        run: npm run install:local && npm run build && npm run vend
       - name: ${{matrix.pkg-manager}}-create-amplify-project
         if: matrix.pkg-manager != 'yarn-stable'
         shell: bash
