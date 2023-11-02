@@ -61,7 +61,10 @@ void describe('create-amplify script', () => {
 
   let tempDir: string;
   beforeEach(async () => {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'test-create-amplify'));
+    const tempDirPath = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'test-create-amplify')
+    );
+    tempDir = path.join(tempDirPath);
   });
 
   afterEach(async () => {
@@ -174,10 +177,6 @@ void describe('create-amplify script', () => {
         }
       );
 
-      await execa('echo', [`🌏 ${PACKAGE_MANAGER_EXECUTABLE}`], {
-        stdio: 'inherit',
-      });
-
       if (PACKAGE_MANAGER_EXECUTABLE === 'yarn') {
         await execa(
           PACKAGE_MANAGER_EXECUTABLE,
@@ -220,10 +219,6 @@ void describe('create-amplify script', () => {
   void it('fails fast if amplify path already exists', async () => {
     const amplifyDirPath = path.join(tempDir, 'amplify');
     await fs.mkdir(amplifyDirPath, { recursive: true });
-
-    await execa('echo', [`🐣 ${PACKAGE_MANAGER_EXECUTABLE}`], {
-      stdio: 'inherit',
-    });
 
     const result = await execa(
       PACKAGE_MANAGER_EXECUTABLE,
