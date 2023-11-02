@@ -8,17 +8,49 @@ import assert from 'assert';
 import { glob } from 'glob';
 
 void describe('create-amplify script', () => {
+  const { PACKAGE_MANAGER_EXECUTABLE = 'npm' } = process.env;
+
   before(async () => {
     // start a local npm proxy and publish the current codebase to the proxy
     await execa('npm', ['run', 'clean:npm-proxy'], { stdio: 'inherit' });
     await execa('npm', ['run', 'vend'], { stdio: 'inherit' });
 
     // nuke the npx cache to ensure we are installing packages from the npm proxy
-    const { stdout } = await execa('npm', ['config', 'get', 'cache']);
-    const npxCacheLocation = path.join(stdout.toString().trim(), '_npx');
+    if (PACKAGE_MANAGER_EXECUTABLE === 'npm') {
+      const { stdout } = await execa('npm', ['config', 'get', 'cache']);
+      const npxCacheLocation = path.join(stdout.toString().trim(), '_npx');
 
-    if (existsSync(npxCacheLocation)) {
-      await fs.rm(npxCacheLocation, { recursive: true });
+      if (existsSync(npxCacheLocation)) {
+        await fs.rm(npxCacheLocation, { recursive: true });
+      }
+    } else if (PACKAGE_MANAGER_EXECUTABLE === 'yarn') {
+      await execa(PACKAGE_MANAGER_EXECUTABLE, ['--version'], {
+        stdio: 'inherit',
+      });
+      await execa(
+        PACKAGE_MANAGER_EXECUTABLE,
+        ['config', 'set', 'registry', 'http://localhost:4873'],
+        { stdio: 'inherit' }
+      );
+      // await execa(
+      //   PACKAGE_MANAGER_EXECUTABLE,
+      //   ['config', 'get', 'npmRegistryServer'],
+      //   {
+      //     stdio: 'inherit',
+      //   }
+      // );
+      await execa(PACKAGE_MANAGER_EXECUTABLE, ['cache', 'clean']);
+    } else if (PACKAGE_MANAGER_EXECUTABLE === 'pnpm') {
+      await execa(PACKAGE_MANAGER_EXECUTABLE, ['--version'], {
+        stdio: 'inherit',
+      });
+      await execa(
+        PACKAGE_MANAGER_EXECUTABLE,
+        ['config', 'set', 'registry', 'http://localhost:4873'],
+        { stdio: 'inherit' }
+      );
+
+      await execa(PACKAGE_MANAGER_EXECUTABLE, ['store', 'clear']);
     }
   });
 
@@ -55,7 +87,7 @@ void describe('create-amplify script', () => {
         );
       }
 
-      await execa('npm', ['create', 'amplify', '--yes'], {
+      await execa(PACKAGE_MANAGER_EXECUTABLE, ['create', 'amplify', '--yes'], {
         cwd: tempDir,
         stdio: 'inherit',
       });
@@ -121,7 +153,9 @@ void describe('create-amplify script', () => {
 
       // assert that project compiles successfully
       await execa(
-        'npx',
+        PACKAGE_MANAGER_EXECUTABLE === 'npm'
+          ? 'npx'
+          : PACKAGE_MANAGER_EXECUTABLE,
         [
           'tsc',
           '--noEmit',
@@ -140,9 +174,26 @@ void describe('create-amplify script', () => {
         }
       );
 
+      await execa('echo', [`🌏 ${PACKAGE_MANAGER_EXECUTABLE}`], {
+        stdio: 'inherit',
+      });
+
+      if (PACKAGE_MANAGER_EXECUTABLE === 'yarn') {
+        await execa(
+          PACKAGE_MANAGER_EXECUTABLE,
+          ['add', 'aws-cdk', 'aws-cdk-lib', 'constructs'],
+          {
+            cwd: tempDir,
+            stdio: 'inherit',
+          }
+        );
+      }
+
       // assert that project synthesizes successfully
       await execa(
-        'npx',
+        PACKAGE_MANAGER_EXECUTABLE === 'npm'
+          ? 'npx'
+          : PACKAGE_MANAGER_EXECUTABLE,
         [
           'cdk',
           'synth',
@@ -151,7 +202,11 @@ void describe('create-amplify script', () => {
           '--context',
           'deployment-type=SANDBOX',
           '--app',
-          "'npx tsx amplify/backend.ts'",
+          `'${
+            PACKAGE_MANAGER_EXECUTABLE === 'npm'
+              ? 'npx'
+              : PACKAGE_MANAGER_EXECUTABLE
+          } tsx amplify/backend.ts'`,
           '--quiet',
         ],
         {
@@ -166,11 +221,19 @@ void describe('create-amplify script', () => {
     const amplifyDirPath = path.join(tempDir, 'amplify');
     await fs.mkdir(amplifyDirPath, { recursive: true });
 
-    const result = await execa('npm', ['create', 'amplify', '--yes'], {
-      cwd: tempDir,
-      stdio: 'pipe',
-      reject: false,
+    await execa('echo', [`🐣 ${PACKAGE_MANAGER_EXECUTABLE}`], {
+      stdio: 'inherit',
     });
+
+    const result = await execa(
+      PACKAGE_MANAGER_EXECUTABLE,
+      ['create', 'amplify', '--yes'],
+      {
+        cwd: tempDir,
+        stdio: 'pipe',
+        reject: false,
+      }
+    );
     assert.equal(result.exitCode, 1);
     assert.ok(
       result.stderr

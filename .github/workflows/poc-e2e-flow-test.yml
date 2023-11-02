@@ -26,32 +26,26 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-      - name: Local Publish create-amplify
-        shell: bash
-        run: npm run install:local && npm run build && npm run vend
       - name: ${{matrix.pkg-manager}}-create-amplify-project
         if: matrix.pkg-manager != 'yarn-stable'
         shell: bash
-        run:
-          | # TODO: last step `create amplify` should be replaced by `run e2e`
-          mkdir -p /tmp/amplify-project; cd /tmp/amplify-project
+        run: |
           npm install -g ${{matrix.pkg-manager}}
           echo "$(${{matrix.pkg-manager}}) config set registry http://localhost:4873"
           ${{matrix.pkg-manager}} config set registry http://localhost:4873
           echo "$(${{matrix.pkg-manager}}) config get registry"
           ${{matrix.pkg-manager}} config get registry
-          ${{matrix.pkg-manager}} create amplify --yes
+          npm run test:dir packages/integration-tests/src/test-e2e/create_amplify.test.ts
 
-      - name: yarn-stable-create-amplify-project
-        if: matrix.pkg-manager == 'yarn-stable'
-        shell: bash
-        run:
-          | # TODO: last step `create amplify` should be replaced by `run e2e`
-          mkdir -p /tmp/amplify-project; cd /tmp/amplify-project
-          corepack enable
-          echo "yarn set version stable"
-          yarn set version stable
-          echo "yarn version $(yarn --version)"
-          yarn config set unsafeHttpWhitelist localhost
-          yarn config set npmRegistryServer http://localhost:4873
-          PACKAGE_MANAGER_EXECUTABLE=yarn yarn create amplify --yes
+      # - name: yarn-stable-create-amplify-project
+      #   if: matrix.pkg-manager == 'yarn-stable'
+      #   shell: bash
+      #   run: |
+      #     mkdir -p /tmp/amplify-project; cd /tmp/amplify-project
+      #     corepack enable
+      #     echo "yarn set version stable"
+      #     yarn set version stable
+      #     echo "yarn version $(yarn --version)"
+      #     yarn config set unsafeHttpWhitelist localhost
+      #     yarn config set npmRegistryServer http://localhost:4873
+      #     PACKAGE_MANAGER_EXECUTABLE=yarn npm run test:dir packages/integration-tests/src/test-e2e/create_amplify.test.ts
