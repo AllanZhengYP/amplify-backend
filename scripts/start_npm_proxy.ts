@@ -16,6 +16,9 @@ const STARTUP_TIMEOUT_MS = 10000;
 if (existsSync(LOG_FILE)) {
   await unlink(LOG_FILE);
 }
+
+console.log('👻 Starting local npm proxy...', process.platform);
+
 // start the server in a detached process
 await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
   shell: 'bash',
