@@ -1,4 +1,4 @@
-import { execa } from 'execa';
+import { execa, execaCommand } from 'execa';
 import { existsSync } from 'fs';
 import { copyFile, readFile, unlink } from 'fs/promises';
 
@@ -17,44 +17,9 @@ if (existsSync(LOG_FILE)) {
   await unlink(LOG_FILE);
 }
 // start the server in a detached process
-// await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
-//   shell: 'bash',
-// });
-
-const startVerdaccio = async () => {
-  try {
-    if (process.platform === 'win32') {
-      // For Windows
-      const { stdout, stderr } = await execa(
-        'cmd.exe',
-        ['/k', 'verdaccio', '-c', 'verdaccio.config.yaml'],
-        {
-          stdout: 'pipe',
-          stderr: 'pipe',
-        }
-      );
-      console.log(stdout);
-      console.error(stderr);
-    } else {
-      // For macOS and Linux
-      const { stdout, stderr } = await execa(
-        'verdaccio',
-        ['-c', 'verdaccio.config.yaml'],
-        {
-          stdout: 'pipe',
-          stderr: 'pipe',
-          shell: true,
-        }
-      );
-      console.log(stdout);
-      console.error(stderr);
-    }
-  } catch (error: unknown) {
-    console.error('Error:', (error as Error).message);
-  }
-};
-
-await startVerdaccio();
+await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
+  shell: 'bash',
+});
 
 // give the server a chance to start up
 await new Promise((resolve) => setTimeout(resolve, STARTUP_TIMEOUT_MS));
