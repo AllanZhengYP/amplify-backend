@@ -20,9 +20,18 @@ if (existsSync(LOG_FILE)) {
 console.log('👻 Starting local npm proxy...', process.platform);
 
 // start the server in a detached process
-await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
-  shell: 'bash',
-});
+if (process.platform === 'win32') {
+  await execaCommand(
+    `start /b verdaccio -c verdaccio.config.yaml > ${LOG_FILE}`,
+    {
+      shell: 'cmd.exe',
+    }
+  );
+} else {
+  await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
+    shell: 'bash',
+  });
+}
 
 // give the server a chance to start up
 await new Promise((resolve) => setTimeout(resolve, STARTUP_TIMEOUT_MS));
