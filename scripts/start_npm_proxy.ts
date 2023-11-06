@@ -21,12 +21,13 @@ console.log('👻 Starting local npm proxy...', process.platform);
 
 // start the server in a detached process
 if (process.platform === 'win32') {
-  await execaCommand(
-    `start /min verdaccio -c verdaccio.config.yaml > ${LOG_FILE}`,
-    {
-      shell: 'cmd.exe',
-    }
-  );
+  console.log('🐣 Starting local npm proxy...', process.platform);
+  // await execaCommand(
+  //   `start /min verdaccio -c verdaccio.config.yaml > ${LOG_FILE}`,
+  //   {
+  //     shell: 'cmd.exe',
+  //   }
+  // );
 } else {
   await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
     shell: 'bash',
