@@ -24,21 +24,28 @@ void describe('create-amplify script', () => {
         await fs.rm(npxCacheLocation, { recursive: true });
       }
     } else if (PACKAGE_MANAGER_EXECUTABLE === 'yarn') {
-      await execa(PACKAGE_MANAGER_EXECUTABLE, ['--version'], {
-        stdio: 'inherit',
-      });
-      await execa(
+      const { stdout } = await execa(
         PACKAGE_MANAGER_EXECUTABLE,
-        ['config', 'set', 'registry', 'http://localhost:4873'],
-        { stdio: 'inherit' }
+        ['--version'],
+        {
+          stdio: 'inherit',
+        }
       );
-      // await execa(
-      //   PACKAGE_MANAGER_EXECUTABLE,
-      //   ['config', 'get', 'npmRegistryServer'],
-      //   {
-      //     stdio: 'inherit',
-      //   }
-      // );
+      if (stdout.startsWith('1.')) {
+        await execa(
+          PACKAGE_MANAGER_EXECUTABLE,
+          ['config', 'set', 'registry', 'http://localhost:4873'],
+          { stdio: 'inherit' }
+        );
+      } else {
+        await execa(
+          PACKAGE_MANAGER_EXECUTABLE,
+          ['config', 'get', 'npmRegistryServer'],
+          {
+            stdio: 'inherit',
+          }
+        );
+      }
       await execa(PACKAGE_MANAGER_EXECUTABLE, ['cache', 'clean']);
     } else if (PACKAGE_MANAGER_EXECUTABLE === 'pnpm') {
       await execa(PACKAGE_MANAGER_EXECUTABLE, ['--version'], {
