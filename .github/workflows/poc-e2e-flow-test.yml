@@ -39,6 +39,8 @@ jobs:
         node-version: [18]
         pkg-manager: [npm, yarn, yarn-stable, pnpm]
     runs-on: ${{ matrix.os }}
+    needs:
+      - build
     env:
       PACKAGE_MANAGER_EXECUTABLE: ${{ matrix.pkg-manager }} # TODO: remove PACKAGE_MANAGER_EXECUTABLE once CLI is able to getPackageManager().
     steps:
