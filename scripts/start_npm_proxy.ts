@@ -18,11 +18,9 @@ if (existsSync(LOG_FILE)) {
 }
 
 // start the server in a detached process
-if (process.platform !== 'win32') {
-  await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
-    shell: 'bash',
-  });
-}
+await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
+  shell: 'bash',
+});
 
 // give the server a chance to start up
 await new Promise((resolve) => setTimeout(resolve, STARTUP_TIMEOUT_MS));
