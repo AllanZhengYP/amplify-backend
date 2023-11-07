@@ -54,8 +54,6 @@ jobs:
     steps:
       - name: Checkout aws-amplify/amplify-cli repo
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # version 3.6.0
-        with:
-          ref: poc/e2e-test
       - name: Setup Node.js
         uses: ./.github/actions/setup_node
       - name: Install or Restore Cache
@@ -67,8 +65,6 @@ jobs:
     steps:
       - name: Checkout aws-amplify/amplify-cli repo
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # version 3.6.0
-        with:
-          ref: poc/e2e-test
       - name: Setup Node.js
         uses: ./.github/actions/setup_node
       - name: Build or Restore Build Cache
@@ -88,8 +84,6 @@ jobs:
     steps:
       - name: Checkout aws-amplify/amplify-cli repo
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1. TODO: try only fetch .github/workflow
-        with:
-          ref: poc/e2e-test
       - name: Setup Node.js
         uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 #4.0.0
         with:
