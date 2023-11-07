@@ -26,6 +26,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
+      - name: Restore Build Cache
+        uses: ./.github/actions/restore_build_cache
       - name: Build
         shell: bash
         run: npm run install:local && npm run build
