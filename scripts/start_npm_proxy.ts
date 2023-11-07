@@ -17,18 +17,8 @@ if (existsSync(LOG_FILE)) {
   await unlink(LOG_FILE);
 }
 
-console.log('👻 Starting local npm proxy...', process.platform);
-
 // start the server in a detached process
-if (process.platform === 'win32') {
-  console.log('🐣 Starting local npm proxy...', process.platform);
-  // await execaCommand(
-  //   `start /min verdaccio -c verdaccio.config.yaml > ${LOG_FILE}`,
-  //   {
-  //     shell: 'cmd.exe',
-  //   }
-  // );
-} else {
+if (process.platform !== 'win32') {
   await execaCommand(`verdaccio -c verdaccio.config.yaml &>${LOG_FILE} &`, {
     shell: 'bash',
   });
