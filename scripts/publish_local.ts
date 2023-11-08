@@ -5,7 +5,9 @@ import * as path from 'path';
 const isCleanWorkingTree = async (): Promise<boolean> => {
   const buffer = await execa('git', ['status', '--porcelain']);
   const getExcludedFiles = (line: string) =>
-    !line.includes('M package-lock.json') && !line.includes('M package.json');
+    line.length > 0 &&
+    !line.includes('M package-lock.json') &&
+    !line.includes('M package.json');
   return !buffer.stdout.trim().split('\n').filter(getExcludedFiles).length;
 };
 const isCleanTree = await isCleanWorkingTree();
