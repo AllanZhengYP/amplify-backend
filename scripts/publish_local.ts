@@ -8,6 +8,7 @@ const isCleanWorkingTree = async (): Promise<boolean> => {
     line.length > 0 &&
     !line.includes('M package-lock.json') &&
     !line.includes('M package.json');
+  console.log('⭐️', buffer.stdout.trim().split('\n').filter(getExcludedFiles));
   return !buffer.stdout.trim().split('\n').filter(getExcludedFiles).length;
 };
 const isCleanTree = await isCleanWorkingTree();
