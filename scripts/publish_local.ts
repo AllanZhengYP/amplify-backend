@@ -6,8 +6,9 @@ const isCleanWorkingTree = async (): Promise<boolean> => {
   const buffer = await execa('git', ['status', '--porcelain']);
   const getExcludedFiles = (line: string) =>
     line.length > 0 &&
-    !line.includes('M package-lock.json') &&
-    !line.includes('M package.json');
+    !line.includes('package-lock.json') &&
+    !line.includes('package.json') &&
+    !line.includes('yarnrc.yml');
   console.log('⭐️', buffer.stdout.trim().split('\n').filter(getExcludedFiles));
   return !buffer.stdout.trim().split('\n').filter(getExcludedFiles).length;
 };
