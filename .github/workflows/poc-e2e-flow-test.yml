@@ -71,8 +71,6 @@ jobs:
           corepack enable
           echo "yarn set version stable"
           yarn set version stable
-          echo "git commit -am 'chore: update yarn version to stable'"
-          git commit -am "chore: update yarn version to stable"
           echo "yarn version $(yarn --version)"
           yarn config set unsafeHttpWhitelist localhost
           yarn config set npmRegistryServer http://localhost:4873
