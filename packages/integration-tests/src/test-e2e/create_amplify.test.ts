@@ -24,20 +24,23 @@ void describe('create-amplify script', () => {
         await fs.rm(npxCacheLocation, { recursive: true });
       }
     } else if (PACKAGE_MANAGER_EXECUTABLE === 'yarn') {
-      const { stdout } = await execa(
-        PACKAGE_MANAGER_EXECUTABLE,
-        ['--version'],
-        {
-          stdio: 'inherit',
-        }
-      );
-      if (stdout.startsWith('1.')) {
+      const { stdout } = await execa(PACKAGE_MANAGER_EXECUTABLE, ['--version']);
+
+      if (stdout.toString().startsWith('1.')) {
         await execa(
           PACKAGE_MANAGER_EXECUTABLE,
           ['config', 'set', 'registry', 'http://localhost:4873'],
           { stdio: 'inherit' }
         );
+        await execa(PACKAGE_MANAGER_EXECUTABLE, ['config', 'get', 'registry'], {
+          stdio: 'inherit',
+        });
       } else {
+        await execa(
+          PACKAGE_MANAGER_EXECUTABLE,
+          ['config', 'set', 'npmRegistryServer', 'http://localhost:4873'],
+          { stdio: 'inherit' }
+        );
         await execa(
           PACKAGE_MANAGER_EXECUTABLE,
           ['config', 'get', 'npmRegistryServer'],
@@ -56,6 +59,9 @@ void describe('create-amplify script', () => {
         ['config', 'set', 'registry', 'http://localhost:4873'],
         { stdio: 'inherit' }
       );
+      await execa(PACKAGE_MANAGER_EXECUTABLE, ['config', 'get', 'registry'], {
+        stdio: 'inherit',
+      });
 
       await execa(PACKAGE_MANAGER_EXECUTABLE, ['store', 'clear']);
     }
