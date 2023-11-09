@@ -8,6 +8,7 @@ const isCleanWorkingTree = async (): Promise<boolean> => {
     line.length > 0 &&
     !line.includes('package-lock.json') &&
     !line.includes('package.json') &&
+    !line.includes('.yarn/') &&
     !line.includes('yarnrc.yml');
   console.log('⭐️', buffer.stdout.trim().split('\n').filter(getExcludedFiles));
   return !buffer.stdout.trim().split('\n').filter(getExcludedFiles).length;
