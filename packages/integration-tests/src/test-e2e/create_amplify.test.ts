@@ -301,26 +301,26 @@ void describe('create-amplify script', () => {
     });
   });
 
-  // void it('fails fast if amplify path already exists', async () => {
-  //   const amplifyDirPath = path.join(tempDir, 'amplify');
-  //   await fs.mkdir(amplifyDirPath, { recursive: true });
+  void it('fails fast if amplify path already exists', async () => {
+    const amplifyDirPath = path.join(tempDir, 'amplify');
+    await fs.mkdir(amplifyDirPath, { recursive: true });
 
-  //   const result = await execa(
-  //     PACKAGE_MANAGER_EXECUTABLE,
-  //     ['create', 'amplify', '--yes'],
-  //     {
-  //       cwd: tempDir,
-  //       stdio: 'pipe',
-  //       reject: false,
-  //     }
-  //   );
-  //   assert.equal(result.exitCode, 1);
-  //   assert.ok(
-  //     result.stderr
-  //       .toLocaleString()
-  //       .includes(
-  //         'Either delete this file/directory or initialize the project in a different location'
-  //       )
-  //   );
-  // });
+    const result = await execa(
+      PACKAGE_MANAGER_EXECUTABLE,
+      ['create', 'amplify', '--yes'],
+      {
+        cwd: tempDir,
+        stdio: 'pipe',
+        reject: false,
+      }
+    );
+    assert.equal(result.exitCode, 1);
+    assert.ok(
+      result.stderr
+        .toLocaleString()
+        .includes(
+          'Either delete this file/directory or initialize the project in a different location'
+        )
+    );
+  });
 });
