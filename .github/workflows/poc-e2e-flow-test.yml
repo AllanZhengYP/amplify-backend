@@ -58,12 +58,6 @@ jobs:
       - name: Restore Build Cache
         uses: ./.github/actions/restore_build_cache
       - name: Run E2E tests with ${{ matrix.pkg-manager }}
-        if: matrix.pkg-manager != 'yarn-stable'
+        shell: bash
         run: |
-          npm install -g ${{matrix.pkg-manager}}
-          PACKAGE_MANAGER_EXECUTABLE=${{matrix.pkg-manager}} npm run test:dir packages/integration-tests/src/test-e2e/create_amplify.test.ts
-      - name: Run E2E tests with ${{ matrix.pkg-manager }}
-        if: matrix.pkg-manager == 'yarn-stable'
-        run: |
-          npm install -g yarn
           PACKAGE_MANAGER_EXECUTABLE=${{matrix.pkg-manager}} npm run test:dir packages/integration-tests/src/test-e2e/create_amplify.test.ts

@@ -14,6 +14,14 @@ void describe('create-amplify script', () => {
     // start a local npm proxy and publish the current codebase to the proxy
     await execa('npm', ['run', 'clean:npm-proxy'], { stdio: 'inherit' });
     await execa('npm', ['run', 'vend'], { stdio: 'inherit' });
+
+    if (PACKAGE_MANAGER_EXECUTABLE.startsWith('yarn')) {
+      await execa('npm', ['install', '-g', 'yarn'], { stdio: 'inherit' });
+    } else if (PACKAGE_MANAGER_EXECUTABLE === 'pnpm') {
+      await execa('npm', ['install', '-g', PACKAGE_MANAGER_EXECUTABLE], {
+        stdio: 'inherit',
+      });
+    }
   });
 
   after(async () => {
