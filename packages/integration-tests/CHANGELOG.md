@@ -1,5 +1,17 @@
 # @aws-amplify/integration-tests
 
+## 0.3.0
+
+### Minor Changes
+
+- 85a015b7: switch to using data-schema packages
+
+## 0.2.4
+
+### Patch Changes
+
+- 8f03cd09: enable branch linker by default
+
 ## 0.2.3
 
 ### Patch Changes
