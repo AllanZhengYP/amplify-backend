@@ -238,6 +238,27 @@ void describe('create-amplify script', () => {
             stdio: 'inherit',
           }
         );
+        if (PACKAGE_MANAGER_EXECUTABLE === 'yarn-stable') {
+          await execa(
+            'yarn',
+            [
+              'add',
+              'tsx',
+              'graphql',
+              'pluralize',
+              'zod',
+              '@aws-amplify/platform-core',
+            ],
+            {
+              cwd: tempDir,
+              stdio: 'inherit',
+            }
+          );
+
+          await execa('node', ['--version'], {
+            cwd: tempDir,
+          });
+        }
       }
 
       // assert that project synthesizes successfully
