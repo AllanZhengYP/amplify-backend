@@ -1,5 +1,13 @@
 # @aws-amplify/backend
 
+## 0.5.6
+
+### Patch Changes
+
+- 5aca60c97: add link to docs in secrets jsdoc
+- Updated dependencies [308d1729a]
+  - @aws-amplify/backend-data@0.8.3
+
 ## 0.5.5
 
 ### Patch Changes
