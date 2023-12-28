@@ -17,19 +17,19 @@ export class Logger implements LoggerInterface {
   ) {}
 
   public error = (...args: Parameters<Console['error']>) => {
-    if (this.logLevel >= LogLevel.ERROR) {
-      this._logger.error(...args);
-    }
+    // if (this.logLevel >= LogLevel.ERROR) {
+    this._logger.error(...args);
+    // }
   };
   public info = (...args: Parameters<Console['info']>) => {
-    if (this.logLevel >= LogLevel.INFO) {
-      this._logger.info(...args);
-    }
+    // if (this.logLevel >= LogLevel.INFO) {
+    this._logger.info(...args);
+    // }
   };
   public debug = (...args: Parameters<Console['debug']>) => {
-    if (this.logLevel >= LogLevel.DEBUG) {
-      this._logger.debug(...args);
-    }
+    // if (this.logLevel >= LogLevel.DEBUG) {
+    this._logger.debug(...args);
+    // }
   };
 }
 
