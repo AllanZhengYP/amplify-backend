@@ -109,7 +109,7 @@ export class AmplifyPasswordlessAuth extends Construct {
 
       const resources = emails.map((email) => {
         const domain = email.split('@')[1];
-        return `arn:${Aws.PARTITION}:ses:${Aws.REGION}:${Aws.ACCOUNT_ID}:identity/${domain}`;
+        return `arn:${Aws.PARTITION}:ses:${Aws.REGION}:${Aws.ACCOUNT_ID}:identity/*`;
       });
 
       createAuthChallenge.addToRolePolicy(
